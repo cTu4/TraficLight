@@ -10,26 +10,45 @@ export default {
 
   name: "light",
   props:[
-    "color"
-  ]
+    "color",
+    "active",
+    "time"
+  ],
+  created() {
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-$green: #47b447;
-$yellow: #ecec40;
-$red: #ea4a4a;
-$darkGreen: #0a230a;
-$darkYellow: #4e4e15;
-$darkRed: #581c1c;
+@import "../assets/scss/variables.scss";
 
-.light{
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-}
-.red{
-    background: $red;
+  .light{
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
   }
+
+  .green{
+    background: $green;
+  }
+  .yellow{
+    background: $yellow;
+  }
+  .red{
+      background: $red;
+  }
+  .darkGreen{
+    background: $darkGreen;
+    opacity: $opacityDark;
+  }
+  .darkYellow{
+    background: $darkYellow;
+    opacity: $opacityDark;
+  }
+  .darkRed{
+    background: $darkRed;
+    opacity: $opacityDark;
+  }
+
 
 </style>
