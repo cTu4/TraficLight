@@ -1,5 +1,4 @@
 <template>
-  <div >
     <div class="traficLight">
       <light
         :color="color === 'red'?color:'darkRed'"
@@ -16,12 +15,8 @@
         :time="time.green"
         :active="color === 'green'"
       ></light>
-    </div>
-    <div>
-      {{timer}}
-    </div>
 
-  </div>
+    </div>
 </template>
 
 <script>
@@ -43,25 +38,26 @@ export default {
         "yellow": "green",
         "red": "yellow"
       },
-      timer: 0
 
     }
   },
   computed:{
     color(){
       return this.$route.params.color
+    },
+    timer(){
+      return this.$store.state.current.timer
     }
+
   },
   methods:{
-
     Trafic(color,time){
-      this.timer = time;
+      this.$store.commit('SetTime', {timer: time})
       let Timer = setInterval(()=>{
-        this.timer--;
+        this.$store.commit('TicTime', {color: this.color, timer: this.timer})
         this.$store.commit('setCurrent', {color: this.color, timer: this.timer})
         if(this.timer === 0){
           console.log(this.routes[this.color]);
-
           this.$router.push({path: this.routes[this.color]});
           clearInterval(Timer);
 
@@ -70,8 +66,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state)
-    this.Trafic(this.color,this.time[this.color]);
+    this.Trafic(this.color,this.$store.state.current.timer === 0 ? this.time[this.color]:this.$store.state.current.timer);
   },
   beforeRouteUpdate(to, from, next){
     console.log(this.routes[this.color],this.time[this.routes[this.color]])
@@ -79,14 +74,16 @@ export default {
     this.Trafic(this.routes[this.color],this.time[this.routes[this.color]]);
     next();
   }
+
 }
 </script>
 
 <style lang="scss">
   .traficLight{
-    width: 300px;
-    height: 500px;
+    width: 200px;
     margin: 0 auto;
-    background: antiquewhite;
+    background: #333;
+    border-radius: 50px;
+    border: 3px solid #000;
   }
 </style>

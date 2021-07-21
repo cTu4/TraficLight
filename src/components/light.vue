@@ -1,6 +1,8 @@
 <template>
-  <div class="light" :class="color">
-
+  <div class="light" :class="[color, timer<=3 && active?'flash':'']">
+      <div class="number" v-show="active">
+        {{timer}}
+      </div>
   </div>
 </template>
 
@@ -14,6 +16,11 @@ export default {
     "active",
     "time"
   ],
+  computed:{
+    timer(){
+      return this.$store.state.current.timer
+    }
+  },
   created() {
   }
 }
@@ -23,10 +30,21 @@ export default {
 @import "../assets/scss/variables.scss";
 
   .light{
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50px;
+    margin: 20px auto;
+    text-align: center;
+
+    .number{
+        width: 50%;
+        margin: 0 auto;
+        padding: 35px 0;
+        font-size: 70px;
+        color: #333;
+    }
   }
+
 
   .green{
     background: $green;
@@ -48,6 +66,35 @@ export default {
   .darkRed{
     background: $darkRed;
     opacity: $opacityDark;
+  }
+
+  .flash {
+    animation: flash 1s infinite;
+    -webkit-animation: flash 1s infinite;
+  }
+
+  @keyframes flash {
+    from{
+      opacity: 1;
+    }
+    50%{
+      opacity: 0.4;
+    }
+    to{
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes flash {
+    from{
+      opacity: 1;
+    }
+    50%{
+      opacity: 0.7;
+    }
+    to{
+      opacity: 1;
+    }
   }
 
 

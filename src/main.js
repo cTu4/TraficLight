@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import TraficLight from "./components/TraficLight.vue";
+import RouteTrafic from "./components/RouteTrafic.vue";
 import VueRouter from 'vue-router'
-import "./assets/scss/variables.scss";
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 
@@ -13,8 +13,7 @@ Vue.use(Vuex);
 const routes = [
   {
     path: '/',
-    redirect: "/red",
-    component: TraficLight,
+    component: RouteTrafic,
     children: [
       { path: '/:color', component: TraficLight },
     ]
@@ -26,10 +25,7 @@ const router = new VueRouter({
   routes // сокращённая запись для `routes: routes`
 })
 
-router.beforeEach((to, from, next) => {
-  if ( !(to.params.color === 'green' || to.params.color === 'yellow' || to.params.color === 'red') ) next({ path: '/red' })
-  else next()
-})
+
 
 
 const store = new Vuex.Store({
@@ -45,6 +41,12 @@ const store = new Vuex.Store({
   mutations:{
     setCurrent(state,data){
       state.current.color = data.color;
+      state.current.timer = data.timer;
+    },
+    TicTime(state){
+      state.current.timer--;
+    },
+    SetTime(state,data){
       state.current.timer = data.timer;
     }
 
